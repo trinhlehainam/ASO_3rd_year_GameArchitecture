@@ -12,8 +12,8 @@ namespace
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+	SetWindowText(L"1916021_TRINH LE HAI NAM");
 	DxLib::ChangeWindowMode(true);
-	DxLib::SetWindowTextW(L"1916021_TRINH LE HAI NAM");
 	DxLib::SetGraphMode(kScreenWidth, kScreenHeight, 32);
 
 	if (DxLib::DxLib_Init() == -1)
