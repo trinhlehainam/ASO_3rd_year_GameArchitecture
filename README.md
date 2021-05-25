@@ -1,1 +1,1 @@
-SkeletonProject
+ゲームアーキテクチャの学習課題
