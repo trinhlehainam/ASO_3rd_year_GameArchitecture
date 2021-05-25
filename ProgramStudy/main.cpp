@@ -1,9 +1,20 @@
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+
 #include <DxLib.h>
+
+namespace
+{
+	constexpr int kScreenWidth = 800;
+	constexpr int kScreenHeight = 600;
+}
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	DxLib::ChangeWindowMode(true);
 	DxLib::SetWindowTextW(L"1916021_TRINH LE HAI NAM");
+	DxLib::SetGraphMode(kScreenWidth, kScreenHeight, 32);
 
 	if (DxLib::DxLib_Init() == -1)
 		return -1;
