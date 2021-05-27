@@ -61,6 +61,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		DxLib::ScreenFlip();
 	}
 
+	for (auto& hTexture : hTextures)
+		DxLib::DeleteGraph(hTexture);
+
 	DxLib::DxLib_End();
 
 	return 0;
