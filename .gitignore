@@ -31,6 +31,6 @@
 *.out
 *.app
 
-# Exclude File
+# Exclude Folder
 **/.vs
 **/x64
