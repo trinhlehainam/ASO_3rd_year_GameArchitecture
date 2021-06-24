@@ -5,22 +5,13 @@
 
 #include <DxLib.h>
 
+#include "Source/Math/vec2.h"
+
 namespace
 {
 	constexpr int kScreenWidth = 800;
 	constexpr int kScreenHeight = 600;
 }
-
-struct vec2f
-{
-	float x, y;
-};
-
-struct rect
-{
-	vec2f pos;
-	vec2f size;
-};
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -55,9 +46,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (!DxLib::ProcessMessage() && !DxLib::CheckHitKey(KEY_INPUT_ESCAPE))
 	{
-
 		DxLib::ClearDrawScreen();
-		DxLib::DrawExtendGraphF(pos.x, pos.y, pos.x + size.x, pos.y + size.y, hTextures[(++currentFrame/10) % 6], 0);
+		DxLib::DrawRotaGraphF(pos.x, pos.y, 1.0f , 0.0f, hTextures[(++currentFrame/10) % 6], 0);
 		DxLib::ScreenFlip();
 	}
 

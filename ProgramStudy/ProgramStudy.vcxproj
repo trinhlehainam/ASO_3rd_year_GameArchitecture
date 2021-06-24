@@ -152,6 +152,30 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Source\Geometry\AABB.cpp" />
+    <ClCompile Include="Source\Geometry\ChristmasTree.cpp" />
+    <ClCompile Include="Source\Geometry\Circle.cpp" />
+    <ClCompile Include="Source\Geometry\Cloud.cpp" />
+    <ClCompile Include="Source\Geometry\IShape.cpp" />
+    <ClCompile Include="Source\Geometry\Triangle.cpp" />
+    <ClCompile Include="Source\Math\line2.cpp" />
+    <ClCompile Include="Source\Math\MathHelper.cpp" />
+    <ClCompile Include="Source\Math\rect.cpp" />
+    <ClCompile Include="Source\Math\segment2.cpp" />
+    <ClCompile Include="Source\Math\vec2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Geometry\AABB.h" />
+    <ClInclude Include="Source\Geometry\ChristmasTree.h" />
+    <ClInclude Include="Source\Geometry\Circle.h" />
+    <ClInclude Include="Source\Geometry\Cloud.h" />
+    <ClInclude Include="Source\Geometry\IShape.h" />
+    <ClInclude Include="Source\Geometry\Triangle.h" />
+    <ClInclude Include="Source\Math\line2.h" />
+    <ClInclude Include="Source\Math\MathHelper.h" />
+    <ClInclude Include="Source\Math\rect.h" />
+    <ClInclude Include="Source\Math\segment2.h" />
+    <ClInclude Include="Source\Math\vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
