@@ -46,6 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (!DxLib::ProcessMessage() && !DxLib::CheckHitKey(KEY_INPUT_ESCAPE))
 	{
+		DxLib::SetDrawScreen(DX_SCREEN_BACK);
 		DxLib::ClearDrawScreen();
 		DxLib::DrawRotaGraphF(pos.x, pos.y, 1.0f , 0.0f, hTextures[(++currentFrame/10) % 6], 0);
 		DxLib::ScreenFlip();
