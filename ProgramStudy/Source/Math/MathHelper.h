@@ -19,16 +19,13 @@ namespace MathHelper
 	template<typename T> T clamp(T value, T min, T max);
 };
 
-// Value of 2 points in one axis
-struct range
-{
-	float min, max;
-};
+template <typename T>
+struct AABB;
 
-class IShape;
-class AABB;
-class Circle;
-class Triangle;
+using AABBf = AABB<float>;
+
+struct Circle;
+struct Triangle;
 struct line2;
 struct segment2;
 
@@ -39,14 +36,13 @@ namespace MathHelper
 	bool isOnSameSide(const line2& l, const segment2& s);
 
 	bool isOverlap(float minA, float maxA, float minB, float maxB);
-	bool isOverlap(const range& a, const range& b);
 	bool isOverlap(const line2& a, const line2& b);
 	bool isOverlap(const segment2& a, const segment2& b);
 
 	bool isOverlap(const Circle& a, const Circle& b);
-	bool isOverlap(const Circle& cir, const AABB& rect);
-	bool isOverlap(const AABB& rect, const Circle& cir);
-	bool isOverlap(const AABB& a, const AABB& b);
+	bool isOverlap(const Circle& cir, const AABBf& rect);
+	bool isOverlap(const AABBf& rect, const Circle& cir);
+	bool isOverlap(const AABBf& a, const AABBf& b);
 	bool isOverlap(const Triangle& a, const Triangle& b);
 }
 

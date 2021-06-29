@@ -6,9 +6,18 @@
 
 #include "../Math/line2.h"
 #include "../Math/segment2.h"
-#include "../Geometry/AABB.h"
-#include "../Geometry/Circle.h"
-#include "../Geometry/Triangle.h"
+#include "Geometry/AABB.h"
+#include "Geometry/Circle.h"
+#include "Geometry/Triangle.h"
+
+namespace
+{
+	// Value of 2 points in one axis
+	struct range
+	{
+		float min, max;
+	};
+}
 
 namespace MathHelper
 {
@@ -97,26 +106,31 @@ namespace MathHelper
 		return r;
 	}
 
+	bool isOverlap(const range& a, const range& b)
+	{
+		return isOverlap(a.min, a.max, b.min, b.max);
+	}
+
 	bool isOverlap(const Circle& a, const Circle& b)
 	{
-		auto d = a.Pos - b.Pos;
+		auto d = a.Center - b.Center;
 		auto r = a.Radius + b.Radius;
 		return d * d <= r * r;
 	}
 
-	bool isOverlap(const Circle& cir, const AABB& rect)
+	bool isOverlap(const Circle& cir, const AABBf& rect)
 	{
-		auto closet_point = clampVec(cir.Pos, rect.Pos, rect.Pos + rect.Size);
-		auto d = closet_point - cir.Pos;
+		auto closet_point = clampVec(cir.Center, rect.Pos, rect.Pos + rect.Size);
+		auto d = closet_point - cir.Center;
 		return d * d <= cir.Radius * cir.Radius;
 	}
 
-	bool isOverlap(const AABB& rect, const Circle& cir)
+	bool isOverlap(const AABBf& rect, const Circle& cir)
 	{
 		return isOverlap(cir, rect);
 	}
 
-	bool isOverlap(const AABB& a, const AABB& b)
+	bool isOverlap(const AABBf& a, const AABBf& b)
 	{
 		auto aLeft = a.Pos.x;
 		auto aRight = a.Pos.x + a.Size.x;
@@ -138,14 +152,14 @@ namespace MathHelper
 		for (int i = 0; i < 3; ++i)
 		{
 			auto i_next = (i + 1) % 3;
-			a_segments[i].a = a.P[i];
-			a_segments[i].b = a.P[i_next];
+			a_segments[i].a = a.Point[i];
+			a_segments[i].b = a.Point[i_next];
 		}
 		for (int i = 0; i < 3; ++i)
 		{
 			auto i_next = (i + 1) % 3;
-			b_segments[i].a = b.P[i];
-			b_segments[i].b = b.P[i_next];
+			b_segments[i].a = b.Point[i];
+			b_segments[i].b = b.Point[i_next];
 		}
 		//
 
@@ -186,12 +200,7 @@ namespace MathHelper
 
 	bool isOverlap(float minA, float maxA, float minB, float maxB)
 	{
-		return maxA >= minB && maxA <= maxB;
-	}
-
-	bool isOverlap(const range& a, const range& b)
-	{
-		return isOverlap(a.min, a.max, b.min, b.max);
+		return maxA >= minB && minA <= maxB;
 	}
 
 }

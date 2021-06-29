@@ -285,6 +285,7 @@ InstantiateFuncTemplate(double);
 
 #pragma region float
 template float dot(const vec2f& a, const vec2f& b);
+template vec2f unitVec(const vec2f&);
 template vec2f reflectionVec(const vec2f& i, const vec2f& n);
 template vec2f projectVec(const vec2f& v, const vec2f& n);
 template vec2f orthogonalVec(const vec2f& v);
