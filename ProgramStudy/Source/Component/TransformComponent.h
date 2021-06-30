@@ -7,14 +7,15 @@ class TransformComponent :
     public IComponent
 {
 public:
+    explicit TransformComponent(const std::shared_ptr<Entity>& owner);
     explicit TransformComponent(const std::shared_ptr<Entity>& owner, const vec2f& pos);
-    explicit TransformComponent(const std::shared_ptr<Entity>& owner, const vec2f& pos, float scale, float angle);
+    explicit TransformComponent(const std::shared_ptr<Entity>& owner, const vec2f& pos, vec2f scale, float rotation);
     ~TransformComponent();
 
 public:
     vec2f Pos;
-    float Scale;
-    float Angle;
+    vec2f Scale;
+    float Rotation;
 
 public:
     void Init() override;

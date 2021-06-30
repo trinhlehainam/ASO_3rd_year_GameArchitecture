@@ -20,6 +20,11 @@ void EntityMng::AddEntity(const std::shared_ptr<Entity>& entity)
 	m_entities.push_back(entity);
 }
 
+const std::vector<std::shared_ptr<Entity>>& EntityMng::GetAllEntities() const
+{
+	return m_entities;
+}
+
 void EntityMng::Update(float deltaTime_s)
 {
 	for (const auto& entity : m_entities)

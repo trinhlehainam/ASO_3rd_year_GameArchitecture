@@ -45,6 +45,7 @@ template<typename T> bool operator <  (const vec2<T>& a, const vec2<T>& b);
 template<typename T> T dot(const vec2<T>& a, const vec2<T>& b);
 template<typename T> T length(const vec2<T>& v);
 template<typename T> vec2<T> unitVec(const vec2<T>& v);
+template<typename T> vec2<T> invertedVec(const vec2<T>& v);
 template<typename T> vec2<T> reflectionVec(const vec2<T>& i, const vec2<T>& n);
 template<typename T> vec2<T> projectVec(const vec2<T>& v, const vec2<T>& onto);
 template<typename T> vec2<T> orthogonalVec(const vec2<T>& v);
@@ -55,3 +56,8 @@ using vec2i = vec2<int>;
 using vec2u = vec2<unsigned int>;
 using vec2f = vec2<float>;
 using vec2d = vec2<double>;
+
+using position2i = vec2<int>;
+using position2u = vec2<unsigned int>;
+using position2f = vec2<float>;
+using position2d = vec2<double>;

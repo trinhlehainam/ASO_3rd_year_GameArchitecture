@@ -12,7 +12,7 @@ struct AABB
 	void operator = (AABB&&) noexcept;
 	~AABB();
 
-	vec2<T> Pos;
+	vec2<T> Origin;
 	vec2<T> Size;
 };
 

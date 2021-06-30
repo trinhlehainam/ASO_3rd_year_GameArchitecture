@@ -3,7 +3,6 @@
 #include <cassert>
 
 #include <DxLib.h>
-#include "../Utilities/StringHelper.h"
 
 ImageMng* ImageMng::m_instance = nullptr;
 
@@ -31,9 +30,9 @@ ImageMng& ImageMng::Instance()
 
 bool ImageMng::AddImage(const std::string& fileName, const std::string& key)
 {
-    std::wstring wFileName{ fileName.begin(),fileName.end() };
     if (m_handleMap.count(key)) return false;
-    m_handleMap[key] = DxLib::LoadGraph(wFileName.c_str());
+    std::wstring wName(fileName.begin(), fileName.end());
+    m_handleMap[key] = DxLib::LoadGraph(wName.c_str());
     if (m_handleMap[key] == -1) return false;
 
     return true;

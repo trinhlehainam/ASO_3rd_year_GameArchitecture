@@ -3,6 +3,7 @@
 #include "../Component/TransformComponent.h"
 #include "../Component/SpriteComponent.h"
 #include "../Component/Collider/BoxCollider.h"
+#include "../Component/Collider/CircleCollider.h"
 
 Entity::Entity():m_isActive(true)
 {
@@ -50,6 +51,19 @@ void Entity::Render()
 }
 
 template<typename T>
+void Entity::AddComponent(const std::shared_ptr<Entity>& owner)
+{
+	auto component = std::make_shared<T>(owner);
+	m_components.emplace_back(component);
+	m_componentMap.emplace(&typeid(T), component);
+	if (typeid(T) == typeid(BoxCollider))
+		m_componentMap.emplace(&typeid(ICollider), component);
+	else if (typeid(T) == typeid(CircleCollider))
+		m_componentMap.emplace(&typeid(ICollider), component);
+	component->Init();
+}
+
+template<typename T>
 bool Entity::HasComponent()
 {
 	return m_componentMap.count(&typeid(T));
@@ -63,17 +77,19 @@ std::shared_ptr<T> Entity::GetComponent()
 }
 			
 #define InstantiateFuncTemplate(component)\
+template void Entity::AddComponent<component>(const std::shared_ptr<Entity>&);\
 template bool Entity::HasComponent<component>();\
 template std::shared_ptr<component> Entity::GetComponent<>();\
 
 #pragma region Specialization
-template <> void Entity::AddComponent<TransformComponent>(const std::shared_ptr<Entity>& owner, const vec2f& pos);
 #pragma endregion
 
 #pragma region Instantiation
 InstantiateFuncTemplate(TransformComponent);
 InstantiateFuncTemplate(SpriteComponent);
-InstantiateFuncTemplate(ICollider);
 InstantiateFuncTemplate(BoxCollider);
+InstantiateFuncTemplate(CircleCollider);
+template bool Entity::HasComponent<ICollider>();
+template std::shared_ptr<ICollider> Entity::GetComponent<>();
 #pragma endregion
 

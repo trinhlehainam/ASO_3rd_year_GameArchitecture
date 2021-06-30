@@ -5,7 +5,7 @@
 enum class COLLIDER_TYPE
 {
     BOX,
-    SPHERE,
+    CIRCLE,
     TRIANGLE,
     CAPSULE
 };

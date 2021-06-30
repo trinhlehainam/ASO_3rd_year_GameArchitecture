@@ -21,8 +21,11 @@ namespace MathHelper
 
 template <typename T>
 struct AABB;
-
 using AABBf = AABB<float>;
+
+template <typename T>
+struct vec2;
+using position2f = vec2<float>;
 
 struct Circle;
 struct Triangle;
@@ -37,12 +40,19 @@ namespace MathHelper
 
 	bool isOverlap(float minA, float maxA, float minB, float maxB);
 	bool isOverlap(const line2& a, const line2& b);
+	bool isOverlap(const line2& l, const Circle& c);
+	bool isOverlap(const line2& l, const AABBf& r);
 	bool isOverlap(const segment2& a, const segment2& b);
-
+	bool isOverlap(const segment2& s, const Circle& c);
+	bool isOverlap(const segment2& s, const AABBf& r);
+	bool isOverlap(const position2f& p, const Circle& c);
+	bool isOverlap(const position2f& p, const AABBf& r);
+	bool isOverlap(const Circle& c, const position2f& p);
 	bool isOverlap(const Circle& a, const Circle& b);
-	bool isOverlap(const Circle& cir, const AABBf& rect);
-	bool isOverlap(const AABBf& rect, const Circle& cir);
+	bool isOverlap(const Circle& c, const AABBf& r);
+	bool isOverlap(const AABBf& r, const Circle& c);
 	bool isOverlap(const AABBf& a, const AABBf& b);
 	bool isOverlap(const Triangle& a, const Triangle& b);
+	
 }
 

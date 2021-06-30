@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Component\Collider\BoxCollider.cpp" />
+    <ClCompile Include="Source\Component\Collider\CircleCollider.cpp" />
     <ClCompile Include="Source\Component\Collider\ICollider.cpp" />
     <ClCompile Include="Source\Component\Collider\SphereCollider.cpp" />
     <ClCompile Include="Source\Component\Collider\TriangleCollider.cpp" />
@@ -174,11 +175,14 @@
     <ClCompile Include="Source\Systems\AnimationMng.cpp" />
     <ClCompile Include="Source\Systems\EntityMng.cpp" />
     <ClCompile Include="Source\Systems\ImageMng.cpp" />
+    <ClCompile Include="Source\Systems\Physics.cpp" />
     <ClCompile Include="Source\Utilities\ScopedTimer.cpp" />
     <ClCompile Include="Source\Utilities\StringHelper.cpp" />
+    <ClCompile Include="Source\_debug\_DebugConOut.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Component\Collider\BoxCollider.h" />
+    <ClInclude Include="Source\Component\Collider\CircleCollider.h" />
     <ClInclude Include="Source\Component\Collider\ICollider.h" />
     <ClInclude Include="Source\Component\Collider\SphereCollider.h" />
     <ClInclude Include="Source\Component\Collider\TriangleCollider.h" />
@@ -201,8 +205,10 @@
     <ClInclude Include="Source\Systems\AnimationMng.h" />
     <ClInclude Include="Source\Systems\EntityMng.h" />
     <ClInclude Include="Source\Systems\ImageMng.h" />
+    <ClInclude Include="Source\Systems\Physics.h" />
     <ClInclude Include="Source\Utilities\ScopedTimer.h" />
     <ClInclude Include="Source\Utilities\StringHelper.h" />
+    <ClInclude Include="Source\_debug\_DebugConOut.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

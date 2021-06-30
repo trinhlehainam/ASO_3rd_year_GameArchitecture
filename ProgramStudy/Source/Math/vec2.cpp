@@ -196,6 +196,14 @@ vec2<T> unitVec(const vec2<T>& v)
 }
 
 template<typename T>
+vec2<T> invertedVec(const vec2<T>& v)
+{
+	assert(v.x != static_cast<T>(0));
+	assert(v.y != static_cast<T>(0));
+	return vec2<T>{1.0f / v.x, 1.0f / v.y};
+}
+
+template<typename T>
 vec2<T> reflectionVec(const vec2<T>& i, const vec2<T>& n)
 {
 	return i - static_cast<T>(2) * (n * i) * n;
@@ -284,8 +292,9 @@ InstantiateFuncTemplate(float);
 InstantiateFuncTemplate(double);
 
 #pragma region float
-template float dot(const vec2f& a, const vec2f& b);
 template vec2f unitVec(const vec2f&);
+template vec2f invertedVec(const vec2f&);
+template float dot(const vec2f& a, const vec2f& b);
 template vec2f reflectionVec(const vec2f& i, const vec2f& n);
 template vec2f projectVec(const vec2f& v, const vec2f& n);
 template vec2f orthogonalVec(const vec2f& v);
@@ -293,6 +302,8 @@ template vec2f clampVec(const vec2f& value, const vec2f& min, const vec2f& max);
 #pragma endregion
 
 #pragma region double
+template vec2d unitVec(const vec2d&);
+template vec2d invertedVec(const vec2d&);
 template double dot(const vec2d& a, const vec2d& b);
 template vec2d reflectionVec(const vec2d& i, const vec2d& n);
 template vec2d projectVec(const vec2d& vi, const vec2d& onto);

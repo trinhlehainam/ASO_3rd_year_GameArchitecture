@@ -2,6 +2,7 @@
 
 #include <DxLib.h>
 
+#include "../_debug/_DebugConOut.h"
 #include "../Math/MathHelper.h"
 
 #include "../Systems/AnimationMng.h"
@@ -128,8 +129,10 @@ void SpriteComponent::Render()
 	auto sourceX = (m_currentDurationId % animation.texColumns) * animation.celWidth;
 	auto sourceY = (m_currentDurationId / animation.texColumns) * animation.celHeight;
 
-	DxLib::DrawRectRotaGraphF(transform->Pos.x, transform->Pos.y,
+	// TODO: Implement pivot(rotation center) variable
+	DxLib::DrawRectRotaGraphFast3F(transform->Pos.x, transform->Pos.y,
 		sourceX, sourceY, animation.celWidth, animation.celHeight,
-		transform->Scale, transform->Angle, animation.texId, 1);
+		32.0f, 32.0f,
+		transform->Scale.x, transform->Scale.y, transform->Rotation, animation.texId, 1);
 		
 }

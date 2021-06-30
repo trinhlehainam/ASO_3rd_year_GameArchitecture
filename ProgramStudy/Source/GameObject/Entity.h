@@ -24,14 +24,8 @@ public:
 	void Update(float deltaTime_s);
 	void Render();
 
-	template<typename T, typename...Arg>
-	void AddComponent(Arg&&...args)
-	{
-		auto component = std::make_shared<T>(std::forward<Arg>(args)...);
-		m_components.emplace_back(component);
-		m_componentMap.emplace(&typeid(T), component);
-		component->Init();
-	}
+	template<typename T>
+	void AddComponent(const std::shared_ptr<Entity>& owner);
 
 	template<typename T>
 	bool HasComponent();
