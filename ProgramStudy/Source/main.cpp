@@ -13,7 +13,7 @@ namespace
 	constexpr int kScreenHeight = 600;
 }
 
-void DrawRectAA(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, int color, int Thickness);
+void DrawRectAA(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, int color, float Thickness);
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	constexpr size_t block_size = 32;
 	int count = 720 / block_size;
-	constexpr float sin_amp = 100.0f;
+	constexpr float sin_amp = 50.0f;
 	constexpr int base_y = 240;
 	int x = 0;
 	int y = base_y;
@@ -69,31 +69,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		x = 0;
 		y = base_y;
 		
-		vec2f p0(static_cast<float>(x), static_cast<float>(y));
+		vec2f currentPos(static_cast<float>(x), static_cast<float>(y));
 		for (int i = 0; i < count; ++i)
 		{
 			int nextX = i * block_size;
 			float frequency_radian = (float)(0.5f * nextX + base_angle) / 180.0f * DX_PI;
-			//int nextY = base_y + sin_amp * sinf(frequency_radian);
 			int nextY = sin_amp * sinf(frequency_radian);
 			
-			auto p1 = p0;
-			p1 += unitVec(vec2f(block_size,
-				50.0f * sinf(0.5f * (float)(base_angle + block_size * i) * DX_PI_F / 180.0f)
-			)) * static_cast<float>(block_size);
-			DxLib::DrawModiGraphF(p0.x, p0.y,
-				p1.x, p1.y,
-				p1.x, p1.y + block_size,
-				p0.x, p0.y + block_size,
+			auto deltaVec = unitVec(vec2f{ (float)block_size, (float)nextY }) * static_cast<float>(block_size);
+			auto nextPos = currentPos + deltaVec;
+
+			DxLib::DrawModiGraphF(currentPos.x, currentPos.y,
+				nextPos.x, nextPos.y,
+				nextPos.x, nextPos.y + block_size,
+				currentPos.x, currentPos.y + block_size,
 				groundTex,
 				1);
-			DrawRectAA(p0.x, p0.y,
-				p1.x, p1.y,
-				p1.x, p1.y + block_size,
-				p0.x, p0.y + block_size,
+			DrawRectAA(currentPos.x, currentPos.y,
+				nextPos.x, nextPos.y,
+				nextPos.x, nextPos.y + block_size,
+				currentPos.x, currentPos.y + block_size,
 				0xffffff, 2.0f);
 
-			p0 = p1;
+			currentPos = nextPos;
 		}
 
 		base_angle = (base_angle + 1) % 720;
@@ -108,7 +106,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	return 0;
 }
 
-void DrawRectAA(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, int color, int Thickness)
+void DrawRectAA(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, int color, float Thickness)
 {
 	DxLib::DrawLineAA(x1, y1, x2, y2, color, Thickness);
 	DxLib::DrawLineAA(x2, y2, x3, y3, color, Thickness);
