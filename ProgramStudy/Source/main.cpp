@@ -53,45 +53,63 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	vertices.emplace_back(132.0f, 100.0f);
 	vertices.emplace_back(100.0f, 100.0f);
 
-
 	constexpr size_t block_size = 32;
 	int count = 720 / block_size;
 	constexpr float sin_amp = 50.0f;
-	constexpr int base_y = 240;
-	int x = 0;
-	int y = base_y;
+	constexpr float base_y = 240.0f;
+	
 	int base_angle = 0;
 	while (!DxLib::ProcessMessage() && !DxLib::CheckHitKey(KEY_INPUT_ESCAPE))
 	{
 		DxLib::SetDrawScreen(DX_SCREEN_BACK);
 		DxLib::ClearDrawScreen();
 
-		x = 0;
-		y = base_y;
-		
+		float x = 0.0f;
+		float y = base_y;
 		vec2f currentPos(static_cast<float>(x), static_cast<float>(y));
+		vec2f lastDeltaVec, nextDeltaVec;;
+		
 		for (int i = 0; i < count; ++i)
 		{
-			int nextX = i * block_size;
+			float nextX = i * block_size;
 			float frequency_radian = (float)(0.5f * nextX + base_angle) / 180.0f * DX_PI;
-			int nextY = sin_amp * sinf(frequency_radian);
+			float nextY = sin_amp * sinf(frequency_radian);
 			
 			auto deltaVec = unitVec(vec2f{ (float)block_size, (float)nextY }) * static_cast<float>(block_size);
 			auto nextPos = currentPos + deltaVec;
 
+			nextX = (i+1) * block_size;
+			frequency_radian = (float)(0.5f * nextX + base_angle) / 180.0f * DX_PI;
+			nextY = sin_amp * sinf(frequency_radian);
+			nextDeltaVec = (i + 1) < count ?unitVec(vec2f{ (float)block_size, (float)nextY }) * static_cast<float>(block_size):
+				vec2f{};
+
+			vec2f leftPos, rightPos;
+			if (lastDeltaVec != 0.0f || nextDeltaVec != 0.0f)
+			{
+				leftPos = currentPos + unitVec(orthogonalVec(deltaVec) + orthogonalVec(lastDeltaVec)) * static_cast<float>(block_size);
+				rightPos = nextPos + unitVec(orthogonalVec(deltaVec) + orthogonalVec(nextDeltaVec)) * static_cast<float>(block_size);
+			}
+			else
+			{
+				leftPos = currentPos + orthogonalVec(deltaVec);
+				rightPos = nextPos + orthogonalVec(deltaVec);
+			}
+				
 			DxLib::DrawModiGraphF(currentPos.x, currentPos.y,
 				nextPos.x, nextPos.y,
-				nextPos.x, nextPos.y + block_size,
-				currentPos.x, currentPos.y + block_size,
+				rightPos.x, rightPos.y,
+				leftPos.x, leftPos.y,
 				groundTex,
 				1);
 			DrawRectAA(currentPos.x, currentPos.y,
 				nextPos.x, nextPos.y,
-				nextPos.x, nextPos.y + block_size,
-				currentPos.x, currentPos.y + block_size,
+				rightPos.x, rightPos.y,
+				leftPos.x, leftPos.y,
 				0xffffff, 2.0f);
 
 			currentPos = nextPos;
+			lastDeltaVec = deltaVec;
 		}
 
 		base_angle = (base_angle + 1) % 720;
