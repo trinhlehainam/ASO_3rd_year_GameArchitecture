@@ -28,7 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	std::vector<int> hTextures;
 	std::vector<vec2f> vertices;
-	int groundTex = DxLib::LoadGraph(L"Assets/Textures/ground.png");
+	int arrowTex = DxLib::LoadGraph(L"Assets/Textures/arrow2.png");
 
 	for (int i = 0; i < 6; ++i)
 	{
@@ -53,10 +53,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	vertices.emplace_back(132.0f, 100.0f);
 	vertices.emplace_back(100.0f, 100.0f);
 
-	constexpr size_t block_size = 32;
-	int count = 720 / block_size;
-	constexpr float sin_amp = 50.0f;
+	int arrowWidth, arrowHeight;
+	DxLib::GetGraphSize(arrowTex, &arrowWidth, &arrowHeight);
+	constexpr size_t block_size = 16;
+	constexpr size_t width = 500;
+	int count = width / block_size;
+	constexpr float sin_amp = block_size * 2.0f;
 	constexpr float base_y = 240.0f;
+	float weight = (float)arrowWidth / width;
 	
 	int base_angle = 0;
 	while (!DxLib::ProcessMessage() && !DxLib::CheckHitKey(KEY_INPUT_ESCAPE))
@@ -96,17 +100,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				rightPos = nextPos + orthogonalVec(deltaVec);
 			}
 				
-			DxLib::DrawModiGraphF(currentPos.x, currentPos.y,
+			DxLib::DrawRectModiGraphF(currentPos.x, currentPos.y,
 				nextPos.x, nextPos.y,
 				rightPos.x, rightPos.y,
 				leftPos.x, leftPos.y,
-				groundTex,
-				1);
-			DrawRectAA(currentPos.x, currentPos.y,
-				nextPos.x, nextPos.y,
-				rightPos.x, rightPos.y,
-				leftPos.x, leftPos.y,
-				0xffffff, 2.0f);
+				i * block_size * weight, 0,
+				block_size, 64,
+				arrowTex, 1);
+
+			// DrawRectAA(currentPos.x, currentPos.y,
+			// 	nextPos.x, nextPos.y,
+			// 	rightPos.x, rightPos.y,
+			// 	leftPos.x, leftPos.y,
+			// 	0xffffff, 2.0f);
 
 			currentPos = nextPos;
 			lastDeltaVec = deltaVec;
