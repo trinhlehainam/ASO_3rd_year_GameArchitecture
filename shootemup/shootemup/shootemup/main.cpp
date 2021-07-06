@@ -11,8 +11,9 @@
 ///@param posB Bの座標
 ///@param radiusB Bの半径
 bool IsHit(const Position2& posA, float radiusA, const Position2& posB,  float radiusB) {
-	//当たり判定を実装してください
-	return false;
+	auto dif = posB - posA;
+	auto d = radiusA + radiusB;
+	return Dot(dif, dif) <= d * d;
 }
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -48,29 +49,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//自機の半径
 	float playerRadius = 10.0f;
+	float enemyRadius = 20.0f;
 
 	//適当に256個くらい作っとく
 	Bullet bullets[256];
-	Bullet homming[1];
+	Bullet homming[5];
 
 	Position2 enemypos(320,25);//敵座標
 	Position2 playerpos(320, 400);//自機座標
 
 	unsigned int frame = 0;//フレーム管理用
 
-	char keystate[256];
-	char lastKeystate[256];
-	bool isDebugMode = false;
+	char keystate[256] = {};
+	char lastKeystate[256] = {};
+	bool isDebugMode = true;
 	int skyy = 0;
 	int skyy2 = 0;
 	int bgidx = 0;
-	while (ProcessMessage() == 0) {
+	constexpr float kHommingShotSpeed = 10.0f;
+	while (ProcessMessage() == 0 && keystate[KEY_INPUT_ESCAPE] == 0) {
 		ClearDrawScreen();
 
 		std::copy(keystate, keystate + 256, lastKeystate);
 		GetHitKeyStateAll(keystate);
 
-		isDebugMode = keystate[KEY_INPUT_P];
+		// isDebugMode = keystate[KEY_INPUT_P];
 
 		//背景
 		DrawExtendGraph(0, 0, 640, 480, bgH[bgidx / 8], false);
@@ -110,8 +113,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			for (auto& b : homming) {
 				if (!b.isActive) {
-					b.pos = enemypos;
-					b.vel = Vector2(0, 5);
+					b.pos = playerpos;
+					b.vel = Vector2(frame % 2 == 0 ? -kHommingShotSpeed : kHommingShotSpeed, 0);
 					b.isActive = true;
 					break;
 				}
@@ -126,6 +129,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//弾の現在座標に弾の現在速度を加算してください
 			b.pos += b.vel;
+			b.vel = (b.vel + (enemypos - b.pos).Normalized()).Normalized() * kHommingShotSpeed;
 			
 			float angle = 0.0f;
 			//弾の角度をatan2で計算してください。angleに値を入れるんだよオゥ
@@ -144,8 +148,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//あたり！
 			//↓のIsHitは実装を書いてません。自分で書いてください。
-			if (IsHit(b.pos, bulletRadius, playerpos, playerRadius)) {
+			if (IsHit(b.pos, bulletRadius, enemypos, enemyRadius)) {
 				//当たった反応を書いてください。
+				b.isActive = false;
 			}
 		}
 
@@ -156,7 +161,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (isDebugMode) {
 			//敵の本体(当たり判定)
-			DrawCircle(enemypos.x, enemypos.y, 5, 0xffffff, false, 3);
+			DrawCircle(enemypos.x, enemypos.y, enemyRadius, 0xffaaaa, false, 3);
 		}
 		++frame;
 		ScreenFlip();
