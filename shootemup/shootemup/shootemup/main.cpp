@@ -1,5 +1,8 @@
-#include<DxLib.h>
 #include<cmath>
+#include<algorithm>
+
+#include<DxLib.h>
+
 #include"Geometry.h"
 
 ///当たり判定関数
@@ -48,6 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//適当に256個くらい作っとく
 	Bullet bullets[256];
+	Bullet homming[1];
 
 	Position2 enemypos(320,25);//敵座標
 	Position2 playerpos(320, 400);//自機座標
@@ -55,6 +59,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	unsigned int frame = 0;//フレーム管理用
 
 	char keystate[256];
+	char lastKeystate[256];
 	bool isDebugMode = false;
 	int skyy = 0;
 	int skyy2 = 0;
@@ -62,6 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	while (ProcessMessage() == 0) {
 		ClearDrawScreen();
 
+		std::copy(keystate, keystate + 256, lastKeystate);
 		GetHitKeyStateAll(keystate);
 
 		isDebugMode = keystate[KEY_INPUT_P];
@@ -100,24 +106,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		//弾発射
-		if (frame % 12 == 0) {
-			for (auto& b : bullets) {
+		if (keystate[KEY_INPUT_SPACE] && !lastKeystate[KEY_INPUT_SPACE])
+		{
+			for (auto& b : homming) {
 				if (!b.isActive) {
-					//b.pos = enemypos;
-					//b.vel = Vector2(0, 5);
-					//b.isActive = true;
+					b.pos = enemypos;
+					b.vel = Vector2(0, 5);
+					b.isActive = true;
 					break;
 				}
 			}
 		}
 
 		//弾の更新および表示
-		for (auto& b : bullets) {
+		for (auto& b : homming) {
 			if (!b.isActive) {
 				continue;
 			}
 
 			//弾の現在座標に弾の現在速度を加算してください
+			b.pos += b.vel;
 			
 			float angle = 0.0f;
 			//弾の角度をatan2で計算してください。angleに値を入れるんだよオゥ
