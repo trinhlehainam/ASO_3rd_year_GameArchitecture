@@ -67,6 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int skyy2 = 0;
 	int bgidx = 0;
 	constexpr float kHommingShotSpeed = 10.0f;
+	bool isRight = false;
 	while (ProcessMessage() == 0 && keystate[KEY_INPUT_ESCAPE] == 0) {
 		ClearDrawScreen();
 
@@ -111,10 +112,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//’e”­ŽË
 		if (keystate[KEY_INPUT_SPACE] && !lastKeystate[KEY_INPUT_SPACE])
 		{
+			isRight = (isRight + 1) % 2;
 			for (auto& b : homming) {
 				if (!b.isActive) {
 					b.pos = playerpos;
-					b.vel = Vector2(frame % 2 == 0 ? -kHommingShotSpeed : kHommingShotSpeed, 0);
+					b.vel = Vector2(!isRight ? -kHommingShotSpeed : kHommingShotSpeed, 0);
 					b.isActive = true;
 					break;
 				}
