@@ -131,10 +131,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//’e‚ÌŒ»İÀ•W‚É’e‚ÌŒ»İ‘¬“x‚ğ‰ÁZ‚µ‚Ä‚­‚¾‚³‚¢
 			b.pos += b.vel;
-			b.vel = (b.vel + (enemypos - b.pos).Normalized()).Normalized() * kHommingShotSpeed;
-			
-			float angle = 0.0f;
-			//’e‚ÌŠp“x‚ğatan2‚ÅŒvZ‚µ‚Ä‚­‚¾‚³‚¢Bangle‚É’l‚ğ“ü‚ê‚é‚ñ‚¾‚æƒIƒD
+			auto vel_unit = b.vel.Normalized();
+			auto to_enemy = (enemypos - b.pos).Normalized();
+			auto angle = std::acos(Dot(vel_unit, to_enemy));
+			angle = std::fminf(angle, DX_PI_F / 24.0f);
+
+			b.vel = Vector2(cos(angle), -sin(angle)) * kHommingShotSpeed;
 			
 			DrawRotaGraph(b.pos.x, b.pos.y,1.0f,angle, bulletH, true);
 			
