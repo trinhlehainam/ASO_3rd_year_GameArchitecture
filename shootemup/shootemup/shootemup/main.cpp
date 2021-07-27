@@ -74,8 +74,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		std::copy(keystate, keystate + 256, lastKeystate);
 		GetHitKeyStateAll(keystate);
 
-		// isDebugMode = keystate[KEY_INPUT_P];
-
 		//îwåi
 		DrawExtendGraph(0, 0, 640, 480, bgH[bgidx / 8], false);
 		bgidx = (bgidx + 1) % 32;
