@@ -1,4 +1,5 @@
 #include "HomingShot.h"
+#include <cmath>
 #include <DxLib.h>
 
 namespace
@@ -54,4 +55,10 @@ void HomingShot::Draw(int handle)
 		}
 		currentPos = trail.Pos;
 	}
+}
+
+void HomingShot::ResetTrails()
+{
+	for (auto& trail : trails)
+		trail.isSet = false;
 }

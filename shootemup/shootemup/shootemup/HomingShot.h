@@ -16,5 +16,6 @@ struct HomingShot: public Bullet
 
 	void Update(const Vector2& goal);
 	void Draw(int handle);
+	void ResetTrails();
 };
 

@@ -144,6 +144,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (b.pos.x + 16 < 0 || b.pos.x - 16 > 640 ||
 				b.pos.y + 24 < 0 || b.pos.y - 24 > 480) {
 				b.isActive = false;
+				b.ResetTrails();
 			}
 
 			//‚ ‚½‚èI
@@ -151,6 +152,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (IsHit(b.pos, bulletRadius, enemypos, enemyRadius)) {
 				//“–‚½‚Á‚½”½‰‚ğ‘‚¢‚Ä‚­‚¾‚³‚¢B
 				b.isActive = false;
+				b.ResetTrails();
 			}
 		}
 
