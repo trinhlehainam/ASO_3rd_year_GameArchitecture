@@ -124,10 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Geometry.cpp" />
+    <ClCompile Include="HomingShot.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Trail.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Geometry.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="HomingShot.h" />
+    <ClInclude Include="Trail.h" />
+    <ClInclude Include="Utilities\static_ring.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

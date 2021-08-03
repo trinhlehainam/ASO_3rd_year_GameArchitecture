@@ -4,6 +4,7 @@
 #include<DxLib.h>
 
 #include"Geometry.h"
+#include"HomingShot.h"
 
 ///“–‚½‚è”»’èŠÖ”
 ///@param posA A‚ÌÀ•W
@@ -41,7 +42,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	struct Bullet {
 		Position2 pos;//À•W
 		Vector2 vel;//‘¬“x
-		float speed;
 		bool isActive = false;//¶‚«‚Ä‚é‚©`H
 	};
 
@@ -54,7 +54,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//“K“–‚É256ŒÂ‚­‚ç‚¢ì‚Á‚Æ‚­
 	Bullet bullets[256];
-	Bullet homming[5];
+	HomingShot homming[5];
 
 	Position2 enemypos(320,25);//“GÀ•W
 	Position2 playerpos(320, 400);//Ž©‹@À•W
@@ -116,6 +116,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (!b.isActive) {
 					b.pos = playerpos;
 					b.vel = Vector2(isRight ? kHommingShotSpeed : -kHommingShotSpeed, 0);
+					b.speed = kHommingShotSpeed;
+					b.rotateDir = 0.5f;
 					b.isActive = true;
 					break;
 				}
@@ -130,17 +132,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//’e‚ÌŒ»ÝÀ•W‚É’e‚ÌŒ»Ý‘¬“x‚ð‰ÁŽZ‚µ‚Ä‚­‚¾‚³‚¢
 			
-			constexpr float turn_speed = 0.5f;
-			auto vel_unit = b.vel.Normalized();
-			auto to_enemy = (enemypos - b.pos).Normalized();
-			auto angle = std::acos(Dot(vel_unit, to_enemy));
-			angle = std::fminf(angle, DX_PI_F / 24.0f);
-			float sign = Cross(vel_unit, to_enemy) > 0.0f ? turn_speed : -turn_speed;
-			angle = std::atan2(b.vel.y, b.vel.x) + sign * angle;
-			b.vel = Vector2(cos(angle), sin(angle)) * kHommingShotSpeed;
-			b.pos += b.vel;
+			b.Update(enemypos);
 
-			DrawRotaGraph(b.pos.x, b.pos.y,1.0f,angle, bulletH, true);
+			b.Draw(bulletH);
 			
 			if (isDebugMode) {
 				//’e‚Ì–{‘Ì(“–‚½‚è”»’è)
