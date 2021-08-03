@@ -32,7 +32,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int skyH = LoadGraph("img/sky.png");
 	int sky2H = LoadGraph("img/sky2.png");
 
-	auto bulletH=LoadGraph("img/bullet.png");
+	auto bulletH=LoadGraph("img/arrow_short.png");
 	int playerH[10];
 	LoadDivGraph("img/player.png", 10, 5, 2, 16, 24,playerH );
 

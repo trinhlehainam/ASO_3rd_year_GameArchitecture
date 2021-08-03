@@ -5,6 +5,6 @@ struct Trail
 {
 	Vector2 Pos;
 	float thickness;
-	bool isSet = false;
+	bool isActive = false;
 };
 

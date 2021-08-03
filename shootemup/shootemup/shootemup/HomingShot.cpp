@@ -28,37 +28,64 @@ void HomingShot::Update(const Vector2& goal)
 
 	vel = Vector2(cos(angle), sin(angle)) * speed;
 
-	auto oldPos = pos;
-	pos += vel;
-	auto newPos = pos;
 	Trail trail;
-	trail.isSet = true;
-	trail.Pos = oldPos;
+	trail.isActive = true;
+	trail.Pos = pos;
 	trail.thickness = 20.0f;
 	trails.insert(trail);
-	
+
+	pos += vel;
 }
 
 void HomingShot::Draw(int handle)
 {
-	DrawRotaGraph(pos.x, pos.y, 1.0f, angle, handle, true);
 	auto currentPos = pos;
+	Vector2 lastDeltaVec, nextDeltaVec;
+	auto trail_count = 0;
 	for (auto& trail : trails)
 	{
-		if (trail.isSet == false) continue;
-		DrawLineAA(currentPos.x, currentPos.y, trail.Pos.x, trail.Pos.y, 0xffffff, trail.thickness);
-		trail.thickness /= 1.2f;
-		if (trail.thickness <= 0.05f)
+		if (trail.isActive == true) ++trail_count;
+	}
+
+	auto trail_idx = 0;
+	Vector2 img_size;
+	Vector2 block_size;
+	GetGraphSizeF(handle, &img_size.x, &img_size.y);
+	block_size.x = img_size.x / trail_count;
+	block_size.y = img_size.y;
+	for (auto& trail : trails)
+	{
+		if (trail.isActive == false) continue;
+		auto nextPos = trail.Pos;
+		auto deltaVec = currentPos - nextPos;
+		Vector2 leftPos, rightPos;
+		if (lastDeltaVec != 0.0f || nextDeltaVec != 0.0f)
 		{
-			trail.thickness = 0.0f;
-			trail.isSet = false;
+
 		}
-		currentPos = trail.Pos;
+		else
+		{
+			leftPos = currentPos + deltaVec.Orthogonal();
+			rightPos = nextPos + deltaVec.Orthogonal();
+		}
+		
+		
+		DxLib::DrawRectModiGraphF(currentPos.x, currentPos.y,
+			nextPos.x, nextPos.y,
+			rightPos.x, rightPos.y,
+			leftPos.x, leftPos.y,
+			0, 0,
+			block_size.x, block_size.y,
+			handle, 1);
+
+		currentPos = nextPos;
+		lastDeltaVec = deltaVec;
+		++trail_idx;
 	}
 }
 
 void HomingShot::ResetTrails()
 {
 	for (auto& trail : trails)
-		trail.isSet = false;
+		trail.isActive = false;
 }

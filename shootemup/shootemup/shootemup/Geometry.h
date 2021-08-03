@@ -21,6 +21,8 @@ struct Vector2 {
 	///正規化ベクトルを返します
 	Vector2 Normalized();
 
+	Vector2 Orthogonal();
+
 	void operator+=(const Vector2& v);
 	void operator-=(const Vector2& v);
 	void operator*=(float scale);
@@ -44,6 +46,8 @@ float operator*(const Vector2& va, const Vector2& vb);
 
 ///外積演算子
 float operator%(const Vector2& va, const Vector2& vb);
+
+bool operator !=(const Vector2& v, float value);
 
 //とりあえず「座標」って意味だとベクタより
 //Positionのほうがよくね？って理由でこの名前

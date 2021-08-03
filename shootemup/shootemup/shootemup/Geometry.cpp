@@ -52,6 +52,11 @@ Vector2::Normalized() {
 	return Vector2(x / mag,	y /mag);
 }
 
+Vector2 Vector2::Orthogonal()
+{
+	return Vector2(-y,x);
+}
+
 
 ///ì‡êœÇï‘Ç∑
 float
@@ -75,6 +80,11 @@ operator*(const Vector2& va, const Vector2& vb) {
 float 
 operator%(const Vector2& va, const Vector2& vb) {
 	return Cross(va, vb);
+}
+
+bool operator!=(const Vector2& v, float value)
+{
+	return v.x != value && v.y != value;
 }
 
 
