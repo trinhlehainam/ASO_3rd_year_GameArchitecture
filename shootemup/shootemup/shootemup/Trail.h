@@ -1,10 +1,10 @@
 #pragma once
 #include "Geometry.h"
 
-class Trail
+struct Trail
 {
-public:
-private:
-
+	Vector2 Pos;
+	float thickness;
+	bool isSet = false;
 };
 
