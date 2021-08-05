@@ -19,7 +19,7 @@ bool IsHit(const Position2& posA, float radiusA, const Position2& posB,  float r
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ChangeWindowMode(true);
-	SetMainWindowText("íeñãÇæÇÊÅ`");
+	SetMainWindowText("1916021_TRINH LE HAI NAM");
 	if (DxLib_Init() != 0) {
 		return -1;
 	}
