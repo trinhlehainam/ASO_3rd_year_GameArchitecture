@@ -40,47 +40,37 @@ void HomingShot::Update(const Vector2& goal)
 void HomingShot::Draw(int handle)
 {
 	auto currentPos = pos;
-	Vector2 lastDeltaVec, nextDeltaVec;
 	auto trail_count = 0;
 	for (auto& trail : trails)
 	{
 		if (trail.isActive == true) ++trail_count;
 	}
 
-	auto trail_idx = 0;
-	Vector2 img_size;
-	Vector2 block_size;
-	GetGraphSizeF(handle, &img_size.x, &img_size.y);
-	block_size.x = img_size.x / trail_count;
-	block_size.y = img_size.y;
+	float u = 0.0f;
+	float div = 1.0f / static_cast<float>(trail_count);
 	for (auto& trail : trails)
 	{
 		if (trail.isActive == false) continue;
 		auto nextPos = trail.Pos;
 		auto deltaVec = currentPos - nextPos;
-		Vector2 leftPos, rightPos;
-		if (lastDeltaVec != 0.0f || nextDeltaVec != 0.0f)
-		{
 
-		}
-		else
-		{
-			leftPos = currentPos + deltaVec.Orthogonal();
-			rightPos = nextPos + deltaVec.Orthogonal();
-		}
-		
-		
-		DxLib::DrawRectModiGraphF(currentPos.x, currentPos.y,
-			nextPos.x, nextPos.y,
-			rightPos.x, rightPos.y,
-			leftPos.x, leftPos.y,
-			0, 0,
-			block_size.x, block_size.y,
-			handle, 1);
+		auto v = deltaVec.Orthogonal().Normalized();
+		auto p1 = currentPos + v * 16.0f;
+		auto p2 = nextPos + v * 16.0f;
+		auto p3 = nextPos - v * 16.0f;
+		auto p4 = currentPos - v * 16.0f;
 
+		DrawRectModiGraphF(
+			p1.x, p1.y,
+			p2.x, p2.y,
+			p3.x, p3.y,
+			p4.x, p4.y,
+			u * 256, 0,
+			div * 256, 64,
+			handle, true);
+
+		u += div;
 		currentPos = nextPos;
-		lastDeltaVec = deltaVec;
-		++trail_idx;
 	}
 }
 
